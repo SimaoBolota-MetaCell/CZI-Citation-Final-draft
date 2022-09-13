@@ -1,5 +1,6 @@
 # CZI-Citation-Final-draft
 
+```
 @article {Conrad2022.03.17.484806,
 	author = {Conrad, Ryan and Narayan, Kedar},
 	title = {Instance segmentation of mitochondria in electron microscopy images with a generalist deep learning model},
@@ -11,3 +12,4 @@
 	eprint = {https://www.biorxiv.org/content/early/2022/03/18/2022.03.17.484806.full.pdf},
 	journal = {bioRxiv}
 }
+```
