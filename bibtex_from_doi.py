@@ -76,10 +76,12 @@ def get_citation_from_doi(link):
         bibtext_text = False
     
     if(bool(bibtext_text)):
+        print(bibtext_text)
+        bibtext_text = re.sub('}},', '},', bibtext_text)
         all_bibtex_citations = re.findall(BIBTEX_PATTERN, bibtext_text, flags=re.DOTALL)
+        
         return all_bibtex_citations
 
 
 
 
-print(get_citation_from_doi('https://github.com/SimaoBolota-MetaCell/Citation-Project/blob/main/README.md'))

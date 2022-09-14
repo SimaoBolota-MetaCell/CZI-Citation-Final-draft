@@ -179,8 +179,10 @@ elif isBibtex==False and bool(get_apa_citations(README_LINK)):
         print('DOI Citation')
         all_bibtex_citations = get_citation_from_doi(README_LINK)
         for individual_citation in all_bibtex_citations:
+            # print(individual_citation)
             individual_citation = re.sub('"', '}', individual_citation)
             individual_citation = re.sub('= }', '= {', individual_citation)
+            individual_citation = individual_citation + '}}'
 
             citation_family_names = get_bibtex_family_names(individual_citation)
             citation_given_names = get_bibtex_given_names(individual_citation)
@@ -190,6 +192,17 @@ elif isBibtex==False and bool(get_apa_citations(README_LINK)):
             citation_journal = get_bibtex_journal(individual_citation)
             citation_url = get_bibtex_url(individual_citation)
             citation_doi = get_bibtex_doi(individual_citation)
+
+           
+        print('\n')
+        print(citation_family_names)
+        print(citation_given_names)
+        print(citation_title)
+        print(citation_year)
+        print(citation_publisher)
+        print(citation_journal)
+        print(citation_url)
+        print(citation_doi)
 
 
         filedict = add_to_dict(git_repo_name, git_author_family_name, git_author_given_name, git_repo_link,citation_family_names, citation_given_names, citation_title, citation_year, citation_url, citation_doi, citation_publisher, citation_journal )

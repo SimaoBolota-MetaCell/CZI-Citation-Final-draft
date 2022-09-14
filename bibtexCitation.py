@@ -48,9 +48,14 @@ def get_bibtex_family_names(individual_citation):
     if author:
         author_string = ' '.join(map(str, author))
         individual_author = re.findall(
-            BIBTEX_INDIVIDUAL_AUTHOR_PATTERN, author_string, flags=re.DOTALL)
+                BIBTEX_INDIVIDUAL_AUTHOR_PATTERN, author_string, flags=re.DOTALL)
         individual_author_string = ' '.join(map(str, individual_author))
-
+        if(bool(individual_author)==False):
+            author_string = re.sub(' ',', ' , author_string)
+            author_string = re.sub(', and,',' and' , author_string)
+            individual_author = re.findall(
+                BIBTEX_INDIVIDUAL_AUTHOR_PATTERN, author_string, flags=re.DOTALL)
+            individual_author_string = ' '.join(map(str, individual_author))
         family_names = re.findall(
             BIBTEX_FAMILY_NAME_PATTERN, individual_author_string, flags=re.DOTALL)
         family_names = [w.replace(',', '') for w in family_names]
@@ -66,7 +71,12 @@ def get_bibtex_given_names(individual_citation):
         individual_author = re.findall(
             BIBTEX_INDIVIDUAL_AUTHOR_PATTERN, author_string, flags=re.DOTALL)
         individual_author_string = ' '.join(map(str, individual_author))
-
+        if(bool(individual_author)==False):
+            author_string = re.sub(' ',', ' , author_string)
+            author_string = re.sub(', and,',' and' , author_string)
+            individual_author = re.findall(
+                BIBTEX_INDIVIDUAL_AUTHOR_PATTERN, author_string, flags=re.DOTALL)
+            individual_author_string = ' '.join(map(str, individual_author))
         given_names = re.findall(
             BIBTEX_GIVEN_NAMES_PATTERN, individual_author_string, flags=re.DOTALL)
         given_names = [w.replace(', ', '') for w in given_names]
@@ -94,10 +104,9 @@ def get_bibtex_year(individual_citation):
 
 
 def get_bibtex_title(individual_citation):
-
+    print(individual_citation)
     title = re.findall(
         BIBTEX_TITLE_PATTERN, individual_citation, flags=re.DOTALL)
-
     title = ''.join(map(str, title))
     return title
 
@@ -107,8 +116,7 @@ def get_bibtex_publisher(individual_citation):
     publisher = re.findall(
         BIBTEX_PUBLISHER_PATTERN, individual_citation, flags=re.DOTALL)
     if (bool(publisher) == False):
-        publisher = re.findall(
-            '(?<=publisher\\s=\\s\{)(.*?)(?=\{)', individual_citation, flags=re.DOTALL)
+        publisher = re.findall(BIBTEX_PUBLISHER_ALTERNATIVE_PATTERN, individual_citation, flags=re.DOTALL)
 
     publisher = ''.join(map(str, publisher))
     return publisher
