@@ -238,6 +238,29 @@ else:
     
 
 
+
+
+import json, requests
+all_contributors = list()
+contributors_given_names = list()
+page_count = 1
+while True:
+    contributors = requests.get("https://api.github.com/repos/SimaoBolota-MetaCell/CZI-Citation-Final-draft/contributors?page=%d"%page_count)
+    if contributors != None and contributors.status_code == 200 and len(contributors.json()) > 0:
+        all_contributors = all_contributors + contributors.json()
+    else:
+        break
+    page_count = page_count + 1
+count=len(all_contributors)
+print("-------------------%d" %count)
+if(count>0):
+    contributors_dict = all_contributors[0:(len(all_contributors))][0:(len(all_contributors))]
+    for single_contributor_dict in contributors_dict:
+        print(type(single_contributor_dict))
+        contributors_given_names= contributors_given_names + ', '.join(single_contributor_dict['login'])
+    print(contributors_given_names)
+
+
 #########################  PUSH COMMITS and PULL REQUEST  ##########################
 
 
