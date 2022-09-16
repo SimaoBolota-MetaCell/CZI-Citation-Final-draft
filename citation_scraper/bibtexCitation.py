@@ -1,9 +1,22 @@
+
 import re
-from htmlScraper import *
+from citation_scraper.htmlScraper import *
 from patterns import *
 
-
 def get_bibtex_citations(link):
+    """Collects all BibTex formatted citations existent in the README.md
+
+    Parameters
+    ----------
+    link : str
+        url from where you want to check for APA citations
+
+    Returns
+    -------
+    all_bibtex_citations : list
+        holds the valid citation information from the BibTex formatted text
+        
+    """
 
     soup = get_html(link)
 
@@ -42,6 +55,19 @@ def get_bibtex_citations(link):
 
 
 def get_bibtex_family_names(individual_citation):
+    """Collects all BibTex author family names existent in the citation captured from the README.md
+
+    Parameters
+    ----------
+    individual_citation : str
+        holds an individual citation from the BibTex formated HTML text
+
+    Returns
+    -------
+    family_names : list
+        from the authors present, holds only the family names for said authors
+   
+    """
 
     author = re.findall(
         BIBTEX_AUTHORS_PATTERN, individual_citation, flags=re.DOTALL)
@@ -64,6 +90,19 @@ def get_bibtex_family_names(individual_citation):
 
 
 def get_bibtex_given_names(individual_citation):
+    """Collects all BibTex author given names existent in the citation captured from the README.md
+
+    Parameters
+    ----------
+    individual_citation : str
+        holds an individual citation from the BibTex formated HTML text
+
+    Returns
+    -------
+    given_names : list
+        from the authors present, holds only the given names for said authors
+   
+    """
     author = re.findall(
         BIBTEX_AUTHORS_PATTERN, individual_citation, flags=re.DOTALL)
     if author:
@@ -85,6 +124,19 @@ def get_bibtex_given_names(individual_citation):
 
 
 def get_bibtex_year(individual_citation):
+    """Collects the year of release of the article/book existent in the README.md
+
+    Parameters
+    ----------
+    individual_citation : str
+        holds an individual citation from the APA formatted HTML text
+
+    Returns
+    -------
+    year : list
+        year of release of the article/book cited in the README.md
+   
+    """
     
     if (bool(re.findall(BIBTEX_YEAR_NUM_PATTERN, individual_citation, flags=re.DOTALL))):
         year = re.findall(
@@ -98,13 +150,27 @@ def get_bibtex_year(individual_citation):
         year = re.findall(
             BIBTEX_DATE_PATTERN, individual_citation, flags=re.DOTALL)
         year = ''.join(map(str, year))
-        year = year[ 1: 5: 1] # getting only the year from {date}
+        # getting only the year from {date}
+        year = year[ 1: 5: 1] 
 
     return year
 
 
 def get_bibtex_title(individual_citation):
-    print(individual_citation)
+    """Collects the title of the article/book existent in the README.md
+
+    Parameters
+    ----------
+    individual_citation : str
+        holds an individual citation from the APA formatted HTML text
+
+    Returns
+    -------
+    title : list
+        title of the article/book cited in the README.md
+   
+    """
+
     title = re.findall(
         BIBTEX_TITLE_PATTERN, individual_citation, flags=re.DOTALL)
     title = ''.join(map(str, title))
@@ -112,6 +178,19 @@ def get_bibtex_title(individual_citation):
 
 
 def get_bibtex_publisher(individual_citation):
+    """Collects the publisher name of the book existent in the README.md
+
+    Parameters
+    ----------
+    individual_citation : str
+        holds an individual citation from the APA formatted HTML text
+
+    Returns
+    -------
+    publisher : list
+        publisher of the book cited in the README.md
+   
+    """
 
     publisher = re.findall(
         BIBTEX_PUBLISHER_PATTERN, individual_citation, flags=re.DOTALL)
@@ -123,6 +202,19 @@ def get_bibtex_publisher(individual_citation):
 
 
 def get_bibtex_doi(individual_citation):
+    """Collects the DOI of the article/book existent in the README.md
+
+    Parameters
+    ----------
+    individual_citation : str
+        holds an individual citation from the APA formatted HTML text
+
+    Returns
+    -------
+    doi : list
+        DOI of the article/book cited in the README.md
+   
+    """
 
     doi = re.findall(
         BIBTEX_DOI_PATTERN, individual_citation, flags=re.DOTALL)
@@ -131,6 +223,19 @@ def get_bibtex_doi(individual_citation):
 
 
 def get_bibtex_url(individual_citation):
+    """Collects the URL of the article/book existent in the README.md
+
+    Parameters
+    ----------
+    individual_citation : str
+        holds an individual citation from the APA formatted HTML text
+
+    Returns
+    -------
+    url : list
+        URL of the article/book cited in the README.md
+   
+    """
 
     url = re.findall(
         BIBTEX_URL_PATTERN, individual_citation, flags=re.DOTALL)
@@ -143,6 +248,19 @@ def get_bibtex_url(individual_citation):
 
 
 def get_bibtex_journal(individual_citation):
+    """Collects the journal name of the article existent in the README.md
+
+    Parameters
+    ----------
+    individual_citation : str
+        holds an individual citation from the APA formatted HTML text
+
+    Returns
+    -------
+    journal : list
+        journal of the article cited in the README.md
+   
+    """
     journal = re.findall(
         BIBTEX_JOURNAL_PATTERN, individual_citation, flags=re.DOTALL)
     return journal
