@@ -2,7 +2,7 @@
 
 ```bibtex
 @article {Conrad2022.03.17.484806,
-	author = {Conrad, Ryan and Narayan, Kedar},
+	author = {Conrad, Ryan},
 	title = {Instance segmentation of mitochondria in electron microscopy images with a generalist deep learning model},
 	elocation-id = {2022.03.17.484806},
 	year = {2022},
