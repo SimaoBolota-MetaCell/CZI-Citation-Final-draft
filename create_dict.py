@@ -4,7 +4,7 @@ import yaml
 NOT_AVAILABLE = ['Not Available']
 
 
-def add_to_dict(git_title, git_family_name, git_given_name, git_url,family_names, given_names, title, year, url, doi, publisher, journal):
+def add_to_dict(git_contributors, git_title, git_family_name, git_given_name, git_url,family_names, given_names, title, year, url, doi, publisher, journal):
 
     dict_file = {'cff-version': '1.2.0',
                  'message': 'If you use this plugin, please cite it using these metadata',
@@ -18,15 +18,25 @@ def add_to_dict(git_title, git_family_name, git_given_name, git_url,family_names
         else:
             dict_file[key] = value
 
-    
-    git_author_dict_file = {'authors': [
-                {'family-names': git_family_name, 'given-names': git_given_name}], }
+    if(git_contributors) and (len(git_contributors)>1):
+        for i in range(len(git_contributors)):
+            author_dict_file = {'authors': [
+                {'given-names': git_contributors[i]}], }
 
-    for key, value in git_author_dict_file.items():
+            for key, value in author_dict_file.items():
                 if key in dict_file:
                     dict_file[key].extend(value)
                 else:
                     dict_file[key] = value
+    else:
+        git_author_dict_file = {'authors': [
+                    {'family-names': git_family_name, 'given-names': git_given_name}], }
+
+        for key, value in git_author_dict_file.items():
+                    if key in dict_file:
+                        dict_file[key].extend(value)
+                    else:
+                        dict_file[key] = value
 
     git_url_dict_file = {'url':git_url  }
 
