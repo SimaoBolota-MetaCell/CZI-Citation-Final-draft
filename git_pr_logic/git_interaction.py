@@ -1,11 +1,22 @@
 import git
-from githubInfo import *
-from pull_request import *
-
-
-
+from citation_scraper.githubInfo import *
+from git_pr_logic.pull_request import *
 
 def git_branch( repo_path, branch_name):
+    """Creates and checks out the branch on the set repository
+
+    Parameters
+    ----------
+    repo_path : str
+        path to the repository where the citation is needed
+    branch_name : str
+        holds the name of the GitHub Repository
+        
+    Returns
+    -------
+        checking out a newly created branch with the given name
+        
+    """
 
     repo = git.Repo(repo_path)
 
@@ -14,17 +25,27 @@ def git_branch( repo_path, branch_name):
     assert origin.exists()
     origin.fetch()
 
-    
-
-
     new_branch = repo.create_head(branch_name, origin.refs.main) 
     new_branch.checkout()
 
-    
 
+def git_pull_request(repo_path,branch_name, git_token):
+    """To push and cretae a Pull Request for the citation file created
 
-
-def git_pull_request(repo_path,branch_name, git_token ):
+    Parameters
+    ----------
+    repo_path : str
+        path to the repository where the citation is needed
+    branch_name : str
+        holds the name of the GitHub Repository
+    git_token : str
+        holds the input value for the git authorization token
+        
+    Returns
+    -------
+        a pull request for the CITATION.CFF from the created branch
+        
+    """
 
     repo = git.Repo(repo_path)
 
@@ -38,7 +59,6 @@ def git_pull_request(repo_path,branch_name, git_token ):
     repo.git.push("--set-upstream", origin, repo.head.ref)
 
     git_repo_name, git_author_family_name, git_author_given_name, git_repo_link, contributors_given_names = getGitInfo(repo_path)
-
 
     pull_request_description = f"""
     Hello {git_author_given_name},

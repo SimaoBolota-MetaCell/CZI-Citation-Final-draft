@@ -1,6 +1,6 @@
-from bibtexCitation import *
-from apaCitation import *
-from bibtex_from_doi import *
+from citation_scraper.bibtexCitation import *
+from citation_scraper.apaCitation import *
+from citation_scraper.bibtex_from_doi import *
 from create_dict import *
 
 DOI_README_LINK = 'https://github.com/SimaoBolota-MetaCell/Citation-Project/blob/main/onlyDOI.md'

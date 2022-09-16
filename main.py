@@ -1,8 +1,8 @@
-from bibtexCitation import *
-from apaCitation import *
-from bibtex_from_doi import *
+from citation_scraper.bibtexCitation import *
+from citation_scraper.apaCitation import *
+from citation_scraper.bibtex_from_doi import *
 from create_dict import *
-from pull_request import *
+from git_pr_logic.pull_request import *
 import yaml
 import git
 import json
@@ -14,9 +14,25 @@ from ruamel.yaml import *
 import tkinter
 from tkinter import *
 from tkinter import messagebox
-from githubInfo import *
-from git_interaction import *
+from citation_scraper.githubInfo import *
+from git_pr_logic.git_interaction import *
 
+"""
+    ----------
+   The main code works as the following:
+   - first checks for BibTex citations in the GitHub Repo's README.md page
+   - then checks for APA citations in the GitHub Repo's README.md page
+   - If none of the first was found, checks for a DOI in the GitHub Repo's README.md,
+   and using a DOI scraper produces a BibTex citation which is converted to the CFF formatting
+   - In the case that no citation was found in the README.md page, a warning
+   is issued
+
+
+   CITATION.CFF format:
+
+    ----------
+
+"""
 
 repo_path = '/Users/simaosa/Desktop/MetaCell/Projects/CZI/FinalCode_Citation_project/CZI-Citation-Final-draft'
 
@@ -31,12 +47,13 @@ git_readme_link = git_repo_link + '/blob/main/README.md'
 
 README_LINK = git_readme_link
 
+print(contributors_given_names)
 
 ######################### GIT BRANCH #########################
 
-git_branch( repo_path, branch_name)
+# git_branch( repo_path, branch_name)
 
-git_token = input("Enter the authentication git token: ")
+# git_token = input("Enter the authentication git token: ")
 
 
 ######################### INITIALIZATIONS #########################
@@ -247,4 +264,4 @@ else:
 
 #########################  PUSH COMMITS and PULL REQUEST  ##########################
 
-git_pull_request(repo_path,branch_name, git_token )
+# git_pull_request(repo_path,branch_name, git_token )

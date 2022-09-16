@@ -1,39 +1,27 @@
-"""
-Created using software by Daniel Himmelstein and released under CC0 1.0. 
-"""
 
 import urllib.request
-from htmlScraper import *
+from citation_scraper.htmlScraper import *
 import re
 import requests
 from patterns import *
 
-
-def shorten(doi, cache={}, verbose=False):
-    """
-    Get the shortDOI for a DOI. Providing a cache dictionary will prevent
-    multiple API requests for the same DOI.
-    """
-    if doi in cache:
-        return cache[doi]
-    quoted_doi = urllib.request.quote(doi)
-    url = 'http://shortdoi.org/{}?format=json'.format(quoted_doi)
-    try:
-        response = requests.get(url).json()
-        short_doi = response['ShortDOI']
-    except Exception as e:
-        if verbose:
-            print(doi, 'failed with', e)
-        return None
-    cache[doi] = short_doi
-    return short_doi
-
-
 def get_bibtext(doi, cache={}):
-    """
-    Use DOI Content Negotioation (http://crosscite.org/cn/) to retrieve a string
+    """Use DOI Content Negotioation (http://crosscite.org/cn/) to retrieve a string
     with the bibtex entry.
+    Created using software by Daniel Himmelstein
+
+    Parameters
+    ----------
+    doi : str
+        holds the DOI of the article/book cited in the README.md
+
+    Returns
+    -------
+    bibtex : str
+        bibtex entry of the DOI
+   
     """
+   
     if doi in cache:
         return cache[doi]
     url = 'https://doi.org/' + urllib.request.quote(doi)
@@ -48,6 +36,20 @@ def get_bibtext(doi, cache={}):
 
 
 def get_citation_from_doi(link):
+    """Gathers DOI from the README.md, transforming it into
+    a BibTex format citation using DOI Content Negotioation
+
+    Parameters
+    ----------
+    link : str
+        url from where you want to check for citations
+
+    Returns
+    -------
+    all_bibtex_citations : list
+        holds the valid citation information from the BibTex formatted text
+        
+    """
     
     soup = get_html(link )
     paragraphs = soup.find_all("p", {'dir': 'auto'})

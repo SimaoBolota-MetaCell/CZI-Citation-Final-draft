@@ -5,6 +5,43 @@ NOT_AVAILABLE = ['Not Available']
 
 
 def add_to_dict(git_contributors, git_title, git_family_name, git_given_name, git_url,family_names, given_names, title, year, url, doi, publisher, journal):
+    """Creates the information structure to be dumped into a YAML CITATION.CFF
+
+    Parameters
+    ----------
+    git_contributors : list
+        holds the names of the GitHub Repository contributors
+    git_title : str
+        holds the name of the GitHub Repository
+    git_family_name : str
+        holds the family name of the GitHub Repository author
+    git_given_name : str
+        holds the given name of the GitHub Repository author
+    git_url : str
+         holds the link for the GitHub Repository
+    family_names : dict[str]
+        from the authors present, holds only the family names for said authors
+    given_names : dict[str]
+        from the authors present, holds only the given names for said authors
+    title : dict[str]
+        title of the article/book cited in the README.md
+    year : dict[str]
+        year of release of the article/book cited in the README.md
+    url : dict[str]
+        URL of the article/book cited in the README.md
+    doi : dict[str]
+        DOI of the article/book cited in the README.md
+    publisher : dict[str]
+        publisher of the book cited in the README.md
+    journal : dict[str]
+        journal of the article cited in the README.md
+
+    Returns
+    -------
+    dict_file : dict
+        holds all the entries and expected values for the CITATION.CFF
+        
+    """
 
     dict_file = {'cff-version': '1.2.0',
                  'message': 'If you use this plugin, please cite it using these metadata',
