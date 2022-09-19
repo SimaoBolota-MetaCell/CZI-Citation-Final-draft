@@ -129,7 +129,7 @@ def get_bibtex_year(individual_citation):
     Parameters
     ----------
     individual_citation : str
-        holds an individual citation from the APA formatted HTML text
+        holds an individual citation from the BibTex formatted HTML text
 
     Returns
     -------
@@ -162,7 +162,7 @@ def get_bibtex_title(individual_citation):
     Parameters
     ----------
     individual_citation : str
-        holds an individual citation from the APA formatted HTML text
+        holds an individual citation from the BibTex formatted HTML text
 
     Returns
     -------
@@ -183,7 +183,7 @@ def get_bibtex_publisher(individual_citation):
     Parameters
     ----------
     individual_citation : str
-        holds an individual citation from the APA formatted HTML text
+        holds an individual citation from the BibTex formatted HTML text
 
     Returns
     -------
@@ -207,7 +207,7 @@ def get_bibtex_doi(individual_citation):
     Parameters
     ----------
     individual_citation : str
-        holds an individual citation from the APA formatted HTML text
+        holds an individual citation from the BibTex formatted HTML text
 
     Returns
     -------
@@ -228,7 +228,7 @@ def get_bibtex_url(individual_citation):
     Parameters
     ----------
     individual_citation : str
-        holds an individual citation from the APA formatted HTML text
+        holds an individual citation from the BibTex formatted HTML text
 
     Returns
     -------
@@ -253,7 +253,7 @@ def get_bibtex_journal(individual_citation):
     Parameters
     ----------
     individual_citation : str
-        holds an individual citation from the APA formatted HTML text
+        holds an individual citation from the BibTex formatted HTML text
 
     Returns
     -------
