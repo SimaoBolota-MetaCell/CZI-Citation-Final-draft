@@ -11,7 +11,6 @@ import warnings
 from patterns import *
 import sys
 from ruamel.yaml import *
-import tkinter
 from tkinter import *
 from tkinter import messagebox
 from citation_scraper.githubInfo import *
@@ -33,19 +32,17 @@ from git_pr_logic.git_interaction import *
     ----------
 
 """
-
+# TO CHANGE to paths
 repo_path = '/Users/simaosa/Desktop/MetaCell/Projects/CZI/FinalCode_Citation_project/CZI-Citation-Final-draft'
 
 branch_name = 'branch_name3'
 
 
 ######################### GIT INTERACTIONS #########################
-
+# get the current GitHub Repository info
 git_repo_name, git_author_family_name, git_author_given_name, git_repo_link, contributors_given_names = getGitInfo(repo_path)
 
-git_readme_link = git_repo_link + '/blob/main/README.md'
-
-README_LINK = git_readme_link
+README_LINK = git_repo_link + '/blob/main/README.md'
 
 print(contributors_given_names)
 
@@ -56,8 +53,7 @@ print(contributors_given_names)
 # git_token = input("Enter the authentication git token: ")
 
 
-######################### INITIALIZATIONS #########################
-
+#Initializing the citation fields
 citation_title = {}
 citation_publisher = {}
 citation_url = {}
@@ -67,18 +63,17 @@ citation_year = {}
 citation_journal = {}
 citation_doi = {}
 
-# #########################  BIBTEX CITATION  ##########################
 
+#first check if there's any BibTex citation information in the README.md
 if (bool(get_bibtex_citations(README_LINK))):
     print('BibTex Citation')
     all_bibtex_citations = get_bibtex_citations(README_LINK)
 
     for individual_citation in all_bibtex_citations:
-        #data transformations needed to enasure the correct formatting outcome
+        #data transformations needed to ensure the correct formatting outcome
         individual_citation = re.sub('"', '}', individual_citation)
         individual_citation = re.sub('= }', '= {', individual_citation)
         individual_citation = individual_citation + '}'
-
         #collecting all citation fields from the BibTex READ.ME citation
         citation_family_names = get_bibtex_family_names(individual_citation)
         citation_given_names = get_bibtex_given_names(individual_citation)
@@ -124,9 +119,8 @@ if (bool(get_bibtex_citations(README_LINK))):
             documents = yaml.dump(filedict, file, sort_keys=False)
 
 
-#########################  APA CITATION  ##########################
 
-
+#then check if there's any APA citation information in the README.md
 elif bool(get_bibtex_citations(README_LINK))==False and bool(get_apa_citations(README_LINK)):
     
     
@@ -139,8 +133,10 @@ elif bool(get_bibtex_citations(README_LINK))==False and bool(get_apa_citations(R
             README_LINK)
 
         for individual_citation in all_apa_citations:
+            #data transformations needed to ensure the correct formatting outcome
             individual_citation = ''.join(map(str, individual_citation))
             individual_citation = all_apa_authors + ' ' + individual_citation
+            #collecting all citation fields from the APA READ.ME citation
             citation_family_names = get_apa_family_names(all_apa_authors)
             citation_given_names = get_apa_given_names(all_apa_authors)
             citation_year = get_apa_year(individual_citation)
@@ -149,6 +145,7 @@ elif bool(get_bibtex_citations(README_LINK))==False and bool(get_apa_citations(R
             citation_journal = get_apa_journal(citation_title, APA_text)
             citation_doi = get_apa_doi(APA_text)
 
+        #creating the dict that serves as a template for the CITATION.CFF
         filedict = add_to_dict(
             contributors_given_names,
             git_repo_name, 
@@ -167,20 +164,21 @@ elif bool(get_bibtex_citations(README_LINK))==False and bool(get_apa_citations(R
         print('\n')
         print(filedict)
         print('\n')
+        #dump the dict contents into the final YAML file CITATION.CFF
         with open(r'./CZI-CItation-Final-draft/CITATION.cff', 'w') as file:
                 documents = yaml.dump(filedict, file, sort_keys=False)
 
-#########################  ONLY DOI  ##########################
-
+    # when no citation information is found, check for an APA formatted DOI
     else:
         print('DOI Citation')
+        #using a DOI scraper, get a BibTex citation from the DOI found
         all_bibtex_citations = get_citation_from_doi(README_LINK)
         for individual_citation in all_bibtex_citations:
-            # print(individual_citation)
+            #data transformations needed to ensure the correct formatting outcome
             individual_citation = re.sub('"', '}', individual_citation)
             individual_citation = re.sub('= }', '= {', individual_citation)
             individual_citation = individual_citation + '}}'
-
+            #collecting all citation fields from the BibTex READ.ME citation
             citation_family_names = get_bibtex_family_names(individual_citation)
             citation_given_names = get_bibtex_given_names(individual_citation)
             citation_title = get_bibtex_title(individual_citation)
@@ -201,7 +199,7 @@ elif bool(get_bibtex_citations(README_LINK))==False and bool(get_apa_citations(R
         print(citation_url)
         print(citation_doi)
 
-
+        #creating the dict that serves as a template for the CITATION.CFF
         filedict = add_to_dict(
             contributors_given_names,
             git_repo_name, 
@@ -221,6 +219,7 @@ elif bool(get_bibtex_citations(README_LINK))==False and bool(get_apa_citations(R
         print('\n')
         print(filedict)
         print('\n')
+        #dump the dict contents into the final YAML file CITATION.CFF
         with open(r'./CZI-CItation-Final-draft/CITATION.cff', 'w') as file:
                 documents = yaml.dump(filedict, file, sort_keys=False)
 
@@ -237,7 +236,7 @@ else:
     print('\n')
     warnings.warn("Warning...........Please insert citation or DOI ")
 
-
+    #creating the dict that serves as a template for the CITATION.CFF
     filedict = add_to_dict(
             contributors_given_names,
             git_repo_name, 
@@ -256,7 +255,7 @@ else:
     print('\n')
     print(filedict)
     print('\n')
-
+    #dump the dict contents into the final YAML file CITATION.CFF
     with open(r'./CZI-CItation-Final-draft/CITATION.cff', 'w') as file:
             documents = yaml.dump(filedict, file)
     
