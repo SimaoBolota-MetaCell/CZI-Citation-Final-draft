@@ -1,4 +1,3 @@
-
 GIT_FAMILY_NAMES_PATTERN = '(?<=Author:\\s)(.*?)(?=\\s)'
 
 APA_DOI_PATTERN = '(?:doi.org/)(.*?)(?=\,)'
@@ -14,11 +13,10 @@ APA_SMALL_YEAR_PATTERN= '(\([0-9]{4}\))'
 APA_ALTERNATIVE_TO_DOI = '(\([0-9]{4}\)\.\\s[A-Z])(.*?)(\.)'
 
 SMALLER_DOI_PATTERN = '(10.(\d)+/)'
-
-BIBTEX_PATTERN = '(?<=@)(.*?)(?=\}\s*\}\s)'
 FULL_DOI_PATERN = '(10.(\d)+/([^(\s\>\"\<)])+)'
 DOI_IN_HTML_PATTERN = '(10[.][0-9]{4,}[^\s"/<>]*/[^\s"<>]+)(?=\])'
 
+BIBTEX_PATTERN = '(?<=@)(.*?)(?=\}\s*\}\s)'
 BIBTEX_AUTHORS_PATTERN = '(?<=author\\s=\\s\{)(.*?)(?=\},)'
 BIBTEX_INDIVIDUAL_AUTHOR_PATTERN = "(?:[A-Z][A-Za-z'`-]+,)" + "\\s[A-Z][A-Za-z'`-]+"
 BIBTEX_FAMILY_NAME_PATTERN = "(?:[A-Z][A-Za-z'`-]+,)"

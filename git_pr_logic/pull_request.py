@@ -28,7 +28,7 @@ def create_pull_request(project_name, repo_name, title, description, head_branch
         pull request for the head_branch against the base_branch
         
     """
-   
+   #getting the correct API to create the PR
     git_pulls_api = "https://api.github.com/repos/{0}/{1}/pulls".format(
         project_name,
         repo_name)
@@ -42,7 +42,7 @@ def create_pull_request(project_name, repo_name, title, description, head_branch
         "head": head_branch,
         "base": base_branch,
     }
-
+    #post request for the Pull Request
     r = requests.post(
         git_pulls_api,
         headers=headers,

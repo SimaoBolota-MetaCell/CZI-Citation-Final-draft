@@ -26,51 +26,39 @@ def getGitInfo(repo_path):
         holds the names of the GitHub Repository contributors
 
     """
-
+    #collecting the GitHub repository info
     repo = git.Repo(repo_path)
-
+    #collecting the GitHub repository origin
     origin = repo.remote("origin")
-
     assert origin.exists()
     origin.fetch()
-
+    #collecting the GitHub repository name
     git_repo_name = repo.remotes.origin.url.split('.git')[0].split('/')[-1]
-
+    #collecting the GitHub repository link
     git_repo_link = repo.remotes.origin.url.split('.git')[0]
-    
+    #collecting the GitHub repository author
     git_author = repo.git.show("-s", "--format=Author: %an <%ae>")
-
+    #finding the family name from the GitHub author 
     git_author_family_name = re.findall(
             GIT_FAMILY_NAMES_PATTERN, git_author, flags=re.DOTALL)
-
     git_author_family_name = ''.join(map(str, git_author_family_name))
-
+    
+    #finding the given name from the GitHub author 
     GIT_GIVEN_NAMES_PATTERN = '(?<=Author:\\s%s\\s)(.*?)(?=\\s)' % git_author_family_name
-
     git_author_given_name = re.findall(
             GIT_GIVEN_NAMES_PATTERN, git_author, flags=re.DOTALL)
-
     git_author_given_name = ''.join(map(str, git_author_given_name))
-    
-    all_contributors = list()
-    contributors_given_names = []
-    page_count = 1
-    while True:
-        contributors = requests.get("https://api.github.com/repos/SimaoBolota-MetaCell/CZI-Citation-Final-draft/contributors?page=%d"%page_count)
-        if contributors != None and contributors.status_code == 200 and len(contributors.json()) > 0:
-                all_contributors = all_contributors + contributors.json()
-        else:
-                break
-        page_count = page_count + 1
-    count=len(all_contributors)
-    print('----------')
-    print(count)
-    if(count>0):
-        contributors_dict = all_contributors[0:(len(all_contributors))][0:(len(all_contributors))]
-        for single_contributor_dict in contributors_dict:
-                contributors_given_names.append(single_contributor_dict['login'])
+    #data transformations needed to ensure the correct formatting outcome
+    git_author_family_name = git_author_family_name.replace("ã", "a")
+    git_author_family_name = git_author_family_name.replace("á", "a")
+    git_author_family_name = git_author_family_name.replace("ó", "o")
+    git_author_family_name = git_author_family_name.replace("í", "i")
+    git_author_given_name = git_author_given_name.replace("ã", "a")
+    git_author_given_name = git_author_given_name.replace("á", "a")
+    git_author_given_name = git_author_given_name.replace("ó", "o")
+    git_author_given_name = git_author_given_name.replace("í", "i")
 
-    return git_repo_name, git_author_family_name, git_author_given_name, git_repo_link, contributors_given_names
+    return git_repo_name, git_author_family_name, git_author_given_name, git_repo_link
 
 
 
