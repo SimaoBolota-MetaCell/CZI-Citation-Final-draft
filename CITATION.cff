@@ -2,11 +2,11 @@ cff-version: 1.2.0
 message: If you use this plugin, please cite it using these metadata
 title: CZI-Citation-Final-draft
 authors:
-- family-names: simaosa
-  given-names: ''
+- family-names: "Sim\xE3o"
+  given-names: "s\xE1"
 url: https://github.com/SimaoBolota-MetaCell/CZI-Citation-Final-draft
 date-released: '2022-01-01'
-references:
+preferred-citation:
 - type: book
   title: '{Instance segmentation of mitochondria in electron microscopy images with
     a generalist deep learning model'
