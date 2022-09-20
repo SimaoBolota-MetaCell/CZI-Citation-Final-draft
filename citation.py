@@ -35,23 +35,18 @@ from git_pr_logic.git_interaction import *
 # TO CHANGE to paths
 repo_path = '/Users/simaosa/Desktop/MetaCell/Projects/CZI/FinalCode_Citation_project/CZI-Citation-Final-draft'
 
-branch_name = 'branch_name3'
+branch_name = 'citation_branch'
 
 
-######################### GIT INTERACTIONS #########################
 # get the current GitHub Repository info
-git_repo_name, git_author_family_name, git_author_given_name, git_repo_link, contributors_given_names = getGitInfo(repo_path)
-
+git_repo_name, git_author_family_name, git_author_given_name, git_repo_link = getGitInfo(repo_path)
+# get the current GitHub Repository README.md link, in which the search for citation will happen
 README_LINK = git_repo_link + '/blob/main/README.md'
 
-print(contributors_given_names)
-
-######################### GIT BRANCH #########################
-
+#creating the branch where the CITATION.CFF will be pushed from
 # git_branch( repo_path, branch_name)
-
+#getting the GitHub authorization token as input, to be used for the PR
 # git_token = input("Enter the authentication git token: ")
-
 
 #Initializing the citation fields
 citation_title = {}
@@ -97,7 +92,6 @@ if (bool(get_bibtex_citations(README_LINK))):
 
     #creating the dict that serves as a template for the CITATION.CFF
     filedict = add_to_dict(
-            contributors_given_names,
             git_repo_name, 
             git_author_family_name, 
             git_author_given_name, 
@@ -147,7 +141,6 @@ elif bool(get_bibtex_citations(README_LINK))==False and bool(get_apa_citations(R
 
         #creating the dict that serves as a template for the CITATION.CFF
         filedict = add_to_dict(
-            contributors_given_names,
             git_repo_name, 
             git_author_family_name, 
             git_author_given_name, 
@@ -201,7 +194,6 @@ elif bool(get_bibtex_citations(README_LINK))==False and bool(get_apa_citations(R
 
         #creating the dict that serves as a template for the CITATION.CFF
         filedict = add_to_dict(
-            contributors_given_names,
             git_repo_name, 
             git_author_family_name, 
             git_author_given_name, 
@@ -224,21 +216,13 @@ elif bool(get_bibtex_citations(README_LINK))==False and bool(get_apa_citations(R
                 documents = yaml.dump(filedict, file, sort_keys=False)
 
 
-#################### No CITATION INFO - USE GIT AUTHOR INFO ####################
-
 else:
-    # #warning pop up message box
-    # root = Tk()
-    # inFront = Toplevel(root) # (Manually put toplevel in front of root)
-    # messagebox.showwarning("Warning", "No Citation information found on the READ.MD",parent=inFront)
-
-    #warning in the console
+    #warning in the console, since no citation or DOI was found
     print('\n')
     warnings.warn("Warning...........Please insert citation or DOI ")
 
     #creating the dict that serves as a template for the CITATION.CFF
     filedict = add_to_dict(
-            contributors_given_names,
             git_repo_name, 
             git_author_family_name, 
             git_author_given_name, 
@@ -259,8 +243,5 @@ else:
     with open(r'./CZI-CItation-Final-draft/CITATION.cff', 'w') as file:
             documents = yaml.dump(filedict, file)
     
-
-
-#########################  PUSH COMMITS and PULL REQUEST  ##########################
 
 # git_pull_request(repo_path,branch_name, git_token )

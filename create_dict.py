@@ -1,16 +1,12 @@
 import yaml
 
 
-NOT_AVAILABLE = ['Not Available']
-
-
-def add_to_dict(git_contributors, git_title, git_family_name, git_given_name, git_url,family_names, given_names, title, year, url, doi, publisher, journal):
+def add_to_dict( git_title, git_family_name, git_given_name, git_url,family_names, given_names, title, year, url, doi, publisher, journal):
     """Creates the information structure to be dumped into a YAML CITATION.CFF
 
     Parameters
     ----------
-    git_contributors : list
-        holds the names of the GitHub Repository contributors
+   
     git_title : str
         holds the name of the GitHub Repository
     git_family_name : str
@@ -42,337 +38,175 @@ def add_to_dict(git_contributors, git_title, git_family_name, git_given_name, gi
         holds all the entries and expected values for the CITATION.CFF
         
     """
-
+    #base initial entries for the .cff
     dict_file = {'cff-version': '1.2.0',
                  'message': 'If you use this plugin, please cite it using these metadata',
                  }
 
-   
+    #adding title of the software citation
     git_title_dict_file = {'title': git_title}
+    #adding field(s) to the base cff
     for key, value in git_title_dict_file.items():
         if key in dict_file:
             dict_file[key].extend(value)
         else:
             dict_file[key] = value
 
-    if(git_contributors) and (len(git_contributors)>1):
-        for i in range(len(git_contributors)):
-            author_dict_file = {'authors': [
-                {'given-names': git_contributors[i]}], }
+    #adding author of the software citation
+    git_author_dict_file = {'authors': [
+        {'family-names': git_family_name, 'given-names': git_given_name}], }
+    #adding field(s) to the base cff
+    for key, value in git_author_dict_file.items():
+        if key in dict_file:
+            dict_file[key].extend(value)
+        else:
+            dict_file[key] = value
 
-            for key, value in author_dict_file.items():
-                if key in dict_file:
-                    dict_file[key].extend(value)
-                else:
-                    dict_file[key] = value
-    else:
-        git_author_dict_file = {'authors': [
-                    {'family-names': git_family_name, 'given-names': git_given_name}], }
-
-        for key, value in git_author_dict_file.items():
-                    if key in dict_file:
-                        dict_file[key].extend(value)
-                    else:
-                        dict_file[key] = value
-
+    #adding URL of the software citation
     git_url_dict_file = {'url':git_url  }
-
+    #adding field(s) to the base cff
     for key, value in git_url_dict_file.items():
                 if key in dict_file:
                     dict_file[key].extend(value)
                 else:
                     dict_file[key] = value
-
-     ######
-    if (bool(year) and year != NOT_AVAILABLE):
+    #adding year of the software citation, if existent
+    if (bool(year)):
 
         year_dict_file = {'date-released': year + '-01-01'}
-    elif (bool(year) == False):
-        year_dict_file = {'date-released': NOT_AVAILABLE}
-
-    for key, value in year_dict_file.items():
-        if key in dict_file:
-            dict_file[key].extend(value)
-        else:
-            dict_file[key] = value
-   
-   
-
-    ######
-    # if (bool(family_names) and family_names != NOT_AVAILABLE):
-    #     for i in range(len(family_names)):
-    #         author_dict_file = {'authors': [
-    #             {'family-names': family_names[i], 'given-names': given_names[i]}], }
-
-    #         for key, value in author_dict_file.items():
-    #             if key in dict_file:
-    #                 dict_file[key].extend(value)
-    #             else:
-    #                 dict_file[key] = value
-
-    # elif (bool(family_names) == False):
-    #     author_dict_file = {'authors': [
-    #         {'family-names': 'Not Available', 'given-names': 'Not Available'}], }
-
-    #     for key, value in author_dict_file.items():
-    #         if key in dict_file:
-    #             dict_file[key].extend(value)
-    #         else:
-    #             dict_file[key] = value
-
-   
-
-    ######
-    
-    if (bool(publisher) and publisher != NOT_AVAILABLE):
-
-            if (bool(doi)):
-                if (bool(title)):
-                    if(bool(url)):
-                        url = ''.join(map(str, url))
-                        publisher_dict_file = {'references': [
-                        {'type': 'book', 'title': title, 'publisher': publisher, 'doi': doi, 'url':url}]}
-
-                        for key, value in publisher_dict_file.items():
-                            if key in dict_file:
-                                dict_file[key].extend(value)
-                            else:
-                                dict_file[key] = value
-
-                    else:
-                        publisher_dict_file = {'references': [
-                        {'type': 'book', 'title': title, 'publisher': publisher, 'doi': doi, 'url':'Not Available'}]}
-
-                        for key, value in publisher_dict_file.items():
-                            if key in dict_file:
-                                dict_file[key].extend(value)
-                            else:
-                                dict_file[key] = value
-                    
-                else:
-
-                    if(bool(url)):
-                        url = ''.join(map(str, url))
-                        publisher_dict_file = {'references': [
-                            {'type': 'book', 'title': 'Not Available', 'publisher': publisher, 'doi': doi, 'url':url}]}
-
-                        for key, value in publisher_dict_file.items():
-                            if key in dict_file:
-                                dict_file[key].extend(value)
-                            else:
-                                dict_file[key] = value
-
-                    else:
-                        publisher_dict_file = {'references': [
-                            {'type': 'book', 'title': 'Not Available', 'publisher': publisher, 'doi': doi, 'url':'Not Available'}]}
-
-                        for key, value in publisher_dict_file.items():
-                            if key in dict_file:
-                                dict_file[key].extend(value)
-                            else:
-                                dict_file[key] = value
-
-                
+        #adding field(s) to the base cff
+        for key, value in year_dict_file.items():
+            if key in dict_file:
+                dict_file[key].extend(value)
             else:
-                if (bool(title)):
-                    if(bool(url)):
-                        publisher_dict_file = {'references': [
-                            {'type': 'book',
-                                'title': title,
-                            'publisher': publisher, 'doi': 'Not Available', 'url':url}]}
-
-                        for key, value in publisher_dict_file.items():
-                            if key in dict_file:
-                                dict_file[key].extend(value)
-                            else:
-                                dict_file[key] = value
-                    else:
-                        publisher_dict_file = {'references': [
-                            {'type': 'book',
-                                'title': title,
-                            'publisher': publisher, 'doi': 'Not Available', 'url':'Not Available'}]}
-
-                        for key, value in publisher_dict_file.items():
-                            if key in dict_file:
-                                dict_file[key].extend(value)
-                            else:
-                                dict_file[key] = value
-                    
-                else:
-                    if(bool(url)):
-                        publisher_dict_file = {'references': [
-                            {'type': 'book',
-                                'title': 'Not Available',
-                            'publisher': publisher, 'doi': 'Not Available', 'url': url}]}
-
-                        for key, value in publisher_dict_file.items():
-                            if key in dict_file:
-                                dict_file[key].extend(value)
-                            else:
-                                dict_file[key] = value
-                    else:
-                        publisher_dict_file = {'references': [
-                            {'type': 'book',
-                                'title': 'Not Available',
-                            'publisher': publisher, 'doi': 'Not Available', 'url': 'Not Available'}]}
-
-                        for key, value in publisher_dict_file.items():
-                            if key in dict_file:
-                                dict_file[key].extend(value)
-                            else:
-                                dict_file[key] = value
-
-    ######
-    if (bool(journal) and journal != NOT_AVAILABLE):
-
-            journal = ''.join(map(str, journal))
-
-            if (bool(doi)):
-                if (bool(title)):
-                    if(bool(url)):
-                        url = ''.join(map(str, url))
-                        journal_dict_file = {'references': [
-                        {'type': 'article', 'title': title, 'journal': journal, 'doi': doi, 'url':url}]}
-
-                        for key, value in journal_dict_file.items():
-                            if key in dict_file:
-                                dict_file[key].extend(value)
-                            else:
-                                dict_file[key] = value
-
-                    else:
-                        journal_dict_file = {'references': [
-                        {'type': 'article', 'title': title, 'journal': journal, 'doi': doi, 'url':'Not Available'}]}
-
-                        for key, value in journal_dict_file.items():
-                            if key in dict_file:
-                                dict_file[key].extend(value)
-                            else:
-                                dict_file[key] = value
-                    
-                else:
-
-                    if(bool(url)):
-                        url = ''.join(map(str, url))
-                        journal_dict_file = {'references': [
-                            {'type': 'article', 'title': 'Not Available', 'journal': journal, 'doi': doi, 'url':url}]}
-
-                        for key, value in journal_dict_file.items():
-                            if key in dict_file:
-                                dict_file[key].extend(value)
-                            else:
-                                dict_file[key] = value
-
-                    else:
-                        journal_dict_file = {'references': [
-                            {'type': 'article', 'title': 'Not Available', 'journal': journal, 'doi': doi, 'url':'Not Available'}]}
-
-                        for key, value in journal_dict_file.items():
-                            if key in dict_file:
-                                dict_file[key].extend(value)
-                            else:
-                                dict_file[key] = value
-
-                
-            else:
-                if (bool(title)):
-                    if(bool(url)):
-                        journal_dict_file = {'references': [
-                            {'type': 'article',
-                                'title': title,
-                            'journal': journal, 'doi': 'Not Available', 'url':url}]}
-
-                        for key, value in journal_dict_file.items():
-                            if key in dict_file:
-                                dict_file[key].extend(value)
-                            else:
-                                dict_file[key] = value
-                    else:
-                        journal_dict_file = {'references': [
-                            {'type': 'article',
-                                'title': title,
-                            'journal': journal, 'doi': 'Not Available', 'url':'Not Available'}]}
-
-                        for key, value in journal_dict_file.items():
-                            if key in dict_file:
-                                dict_file[key].extend(value)
-                            else:
-                                dict_file[key] = value
-                    
-                else:
-                    if(bool(url)):
-                        journal_dict_file = {'references': [
-                            {'type': 'article',
-                                'title': 'Not Available',
-                            'journal': journal, 'doi': 'Not Available', 'url': url}]}
-
-                        for key, value in journal_dict_file.items():
-                            if key in dict_file:
-                                dict_file[key].extend(value)
-                            else:
-                                dict_file[key] = value
-                    else:
-                        journal_dict_file = {'references': [
-                            {'type': 'article',
-                                'title': 'Not Available',
-                            'journal': journal, 'doi': 'Not Available', 'url': 'Not Available'}]}
-
-                        for key, value in journal_dict_file.items():
-                            if key in dict_file:
-                                dict_file[key].extend(value)
-                            else:
-                                dict_file[key] = value
-
-    ######
+                dict_file[key] = value
     
-    if(bool(journal)== False and bool(publisher)== False and bool(doi)== True and bool(url)== True and bool(title)==True ):
-        doi = ''.join(map(str, doi))
-        url = ''.join(map(str, url))
-        doi_dict_file = {'references': [
-                    {'type': 'article',
-                    'title': title,
-                     'doi': doi,
-                     'url':url}]}
+    #if existent, add a book reference as the preferred citation
+    if bool(publisher) and bool(journal) == False:
 
-        for key, value in doi_dict_file.items():
-                    if key in dict_file:
-                        dict_file[key].extend(value)
+        publisher_dict_file = {'preferred-citation': 
+                        {'type': 'book', 'publisher': publisher}}
+
+        pub = publisher_dict_file['preferred-citation']
+        
+        #adding title of the book citation, if existent
+        if bool(title):
+            pub['title'] = title
+            print(pub)
+        #adding DOI of the book citation, if existent
+        if(bool(doi)):
+            pub['doi'] = doi
+            print(pub)
+        #adding URL of the book citation, if existent
+        if(bool(url)):
+            pub['url'] = url
+            print(pub)
+        #adding authors of the book citation, if existent
+        if bool(family_names):
+            for i in range(len(family_names)):
+                author_dict_file = {'authors': [
+                    {'family-names': family_names[i], 'given-names': given_names[i]}], }
+                #adding field(s) to the book dict
+                for key, value in author_dict_file.items():
+                    if key in pub:
+                        pub[key].extend(value)
                     else:
-                        dict_file[key] = value
-    
-    if(bool(journal)== False and bool(publisher)== False and bool(doi)== True and bool(url)== False and bool(title)==True):
-        doi = ''.join(map(str, doi))
-        url = ''.join(map(str, url))
-        doi_dict_file = {'references': [
-                    {'type': 'article',
-                    'title': title,
-                     'doi': doi,
-                     'url':'Not Available'}]}
+                        pub[key] = value
+        #adding field(s) to the base cff    
+        for key, value in publisher_dict_file.items():
+                            if key in dict_file:
+                                dict_file[key].extend(value)
+                            else:
+                                dict_file[key] = value
+    #if existent, add a book reference as the preferred citation
+    if bool(journal) and bool(publisher)== False:
 
-        for key, value in doi_dict_file.items():
-                    if key in dict_file:
-                        dict_file[key].extend(value)
+        journal_dict_file = {'preferred-citation': 
+                        {'type': 'journal', 'journal': journal}}
+
+        journ = journal_dict_file['preferred-citation']
+
+        #adding title of the article citation, if existent
+        if(bool(title)):
+            journ['title'] = title
+            print(journ)
+        #adding DOI of the article citation, if existent
+        if(bool(doi)):
+            journ['doi'] = doi
+            print(journ)
+        #adding URL of the article citation, if existent
+        if(bool(url)):
+            journ['url'] = url
+            print(journ)
+        #adding authors of the article citation, if existent
+        if bool(family_names):
+            for i in range(len(family_names)):
+                author_dict_file = {'authors': [
+                    {'family-names': family_names[i], 'given-names': given_names[i]}], }
+                #adding field(s) to the journal dict
+                for key, value in author_dict_file.items():
+                    if key in journ:
+                        journ[key].extend(value)
                     else:
-                        dict_file[key] = value
+                        journ[key] = value
+        #adding field(s) to the base cff    
+        for key, value in journal_dict_file.items():
+                            if key in dict_file:
+                                dict_file[key].extend(value)
+                            else:
+                                dict_file[key] = value
+    #if both journal and publisher ingormation exist, add an article reference as 
+    # the preferred citation and a book reference as a sub-reference
+    if bool(journal) and bool(publisher):
+        journal_dict_file = {'preferred-citation': 
+                        {'type': 'journal', 'journal': journal}}
 
-    if(bool(journal)== False and bool(publisher)== False and bool(doi)== True and bool(url)== False and bool(title)==False):
-        doi = ''.join(map(str, doi))
-        url = ''.join(map(str, url))
-        doi_dict_file = {'references': [
-                    {'type': 'article',
-                    'title': 'Not Available',
-                     'doi': doi,
-                     'url':'Not Available'}]}
+        journ = journal_dict_file['preferred-citation']
 
-        for key, value in doi_dict_file.items():
-                    if key in dict_file:
-                        dict_file[key].extend(value)
+        #adding authors of the article citation, if existent
+        if(bool(title)):
+            journ['title'] = title
+        #adding DOI of the article citation, if existent    
+        if(bool(doi)):
+            journ['doi'] = doi
+        #adding URL of the article citation, if existent
+        if(bool(url)):
+            journ['url'] = url
+        #adding authors of the article citation, if existent
+        if bool(family_names):
+            for i in range(len(family_names)):
+                author_dict_file = {'authors': [
+                    {'family-names': family_names[i], 'given-names': given_names[i]}], }
+                #adding field(s) to the journal dict
+                for key, value in author_dict_file.items():
+                    if key in journ:
+                        journ[key].extend(value)
                     else:
-                        dict_file[key] = value
+                        journ[key] = value
+            
+        #adding field(s) to the base cff
+        for key, value in journal_dict_file.items():
+                            if key in dict_file:
+                                dict_file[key].extend(value)
+                            else:
+                                dict_file[key] = value
+        
 
+        publisher_dict_file = {'references': 
+                        {'type': 'book', 'publisher': publisher}}
 
-
-    print('\n')
-    print('Citation Dict File created')
-
+        pub = publisher_dict_file['references']
+        #adding title of the book citation, if existent
+        if(bool(title)):
+            pub['title'] = title
+        #adding DOI of the book citation, if existent    
+        if(bool(doi)):
+            pub['doi'] = doi
+        #adding field(s) to the base cff
+        for key, value in publisher_dict_file.items():
+                            if key in dict_file:
+                                dict_file[key].extend(value)
+                            else:
+                                dict_file[key] = value
+        
     return dict_file

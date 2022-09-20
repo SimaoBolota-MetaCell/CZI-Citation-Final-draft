@@ -17,14 +17,13 @@ def git_branch( repo_path, branch_name):
         checking out a newly created branch with the given name
         
     """
-
+    #collecting the GitHub repository info
     repo = git.Repo(repo_path)
-
+    #collecting the GitHub repository origin
     origin = repo.remote("origin")
-
     assert origin.exists()
     origin.fetch()
-
+    #creating and checking out a new branch
     new_branch = repo.create_head(branch_name, origin.refs.main) 
     new_branch.checkout()
 
@@ -46,19 +45,18 @@ def git_pull_request(repo_path,branch_name, git_token):
         a pull request for the CITATION.CFF from the created branch
         
     """
-
+    #collecting the GitHub repository info
     repo = git.Repo(repo_path)
-
+    #collecting the GitHub repository origin
     origin = repo.remote("origin")
-
     assert origin.exists()
     origin.fetch()
-
+    #adding, commiting and pushing the CITATION.CFF 
     repo.index.add('CITATION.cff')
     repo.index.commit("CFF Citation Added")
     repo.git.push("--set-upstream", origin, repo.head.ref)
-
-    git_repo_name, git_author_family_name, git_author_given_name, git_repo_link, contributors_given_names = getGitInfo(repo_path)
+    #getting the GitHub Repository information
+    git_repo_name, git_author_family_name, git_author_given_name, git_repo_link = getGitInfo(repo_path)
 
     pull_request_description = f"""
     Hello {git_author_given_name},
