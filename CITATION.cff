@@ -7,6 +7,6 @@ authors:
 url: https://github.com/SimaoBolota-MetaCell/CZI-Citation-Final-draft
 date-released: '2022-01-01'
 preferred-citation:
-  type: article
   title: '{Instance segmentation of mitochondria in electron microscopy images with
     a generalist deep learning model'
+  type: article
