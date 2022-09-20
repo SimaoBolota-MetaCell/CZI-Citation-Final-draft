@@ -8,6 +8,7 @@ url: https://github.com/SimaoBolota-MetaCell/CZI-Citation-Final-draft
 date-released: '2022-01-01'
 preferred-citation:
   type: book
+  publisher: jjj
   doi: 10.1101/2022.03.17.484806
   authors:
   - family-names: "Simao"
