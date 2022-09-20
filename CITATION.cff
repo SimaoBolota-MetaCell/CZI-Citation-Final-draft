@@ -8,8 +8,6 @@ url: https://github.com/SimaoBolota-MetaCell/CZI-Citation-Final-draft
 date-released: '2022-01-01'
 preferred-citation:
   type: book
-  publisher: jjj
-  authors:
-  - family-names: "Simao"
-    given-names: "sa"
-  
+  title: '{Instance segmentation of mitochondria in electron microscopy images with
+    a generalist deep learning model'
+  publisher: Cold Spring Harbor Laboratory
