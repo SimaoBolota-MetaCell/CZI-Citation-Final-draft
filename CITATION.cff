@@ -9,28 +9,20 @@ date-released: '2022-01-01'
 preferred-citation:
   type: journal
   journal:
-  - ' Scientific Reports, 12, 867 '
-  title: Accurate determination of marker location within whole-brain microscopy images
-  doi:
-  - 10.1038/s41598-021-04676-9
+  - bioRxiv
+  title: '{Instance segmentation of mitochondria in electron microscopy images with
+    a generalist deep learning model'
+  doi: 10.1101/2022.03.17.484806
+  url:
+  - https://www.biorxiv.org/content/early/2022/03/18/2022.03.17.484806
   authors:
-  - family-names: Tyson
-    given-names: A.
-  - family-names: Fort
-    given-names: M.
-  - family-names: Rousseau
-    given-names: C.
-  - family-names: Cossell
-    given-names: L.
-  - family-names: Tsitoura
-    given-names: C.
-  - family-names: Lenzi
-    given-names: S.
-  - family-names: Obenhaus
-    given-names: H.
-  - family-names: Claudi
-    given-names: F.
-  - family-names: Branco
-    given-names: T.
-  - family-names: Margrie
-    given-names: T.
+  - family-names: Conrad
+    given-names: Ryan
+  - family-names: Narayan
+    given-names: Kedar
+references:
+  type: book
+  publisher: Cold Spring Harbor Laboratory
+  title: '{Instance segmentation of mitochondria in electron microscopy images with
+    a generalist deep learning model'
+  doi: 10.1101/2022.03.17.484806
