@@ -9,8 +9,7 @@
 	doi = {10.1101/2022.03.17.484806},
 	publisher = {Cold Spring Harbor Laboratory}
 	URL = {https://www.biorxiv.org/content/early/2022/03/18/2022.03.17.484806},
-	eprint = {https://www.biorxiv.org/content/early/2022/03/18/2022.03.17.484806.full.pdf},
-	journal = {bioRxiv}
+	eprint = {https://www.biorxiv.org/content/early/2022/03/18/2022.03.17.484806.full.pdf}
 
 }
 ```
