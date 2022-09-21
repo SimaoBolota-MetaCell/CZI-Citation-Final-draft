@@ -156,7 +156,7 @@ def add_to_dict( git_title, git_family_name, git_given_name, git_url,family_name
                             else:
                                 dict_file[key] = value
     #if both journal and publisher ingormation exist, add an article reference as 
-    # the preferred citation and a book reference as a sub-reference
+    #the preferred citation and a book reference as a sub-reference
     if bool(journal) and bool(publisher):
         journal_dict_file = {'preferred-citation': 
                         {'type': 'journal', 'journal': journal}}

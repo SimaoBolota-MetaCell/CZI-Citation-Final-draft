@@ -1,12 +1,30 @@
 from citation_scraper.bibtexCitation import *
 from citation_scraper.apaCitation import *
 from citation_scraper.bibtex_from_doi import *
+from citation_scraper.githubInfo import *
 from create_dict import *
+import git
+import os
 
-DOI_README_LINK = 'https://github.com/SimaoBolota-MetaCell/Citation-Project/blob/main/onlyDOI.md'
-APA_README_LINK = 'https://github.com/SimaoBolota-MetaCell/Citation-Project/blob/main/APA.md'
-BIBTEX_README_LINK = 'https://github.com/SimaoBolota-MetaCell/Citation-Project/blob/main/bibtextandAPA.md'
-NOTHING_README_LINK = 'https://github.com/SimaoBolota-MetaCell/Citation-Project/blob/main/emptyreadme.md'
+
+repo_path = os.path.dirname(__file__)
+#collecting the GitHub repository info
+repo = git.Repo(repo_path)
+#collecting the GitHub repository origin
+origin = repo.remote("origin")
+assert origin.exists()
+origin.fetch()
+#collecting the GitHub repository link
+git_repo_link = repo.remotes.origin.url.split('.git')[0]
+
+APA_README_LINK = git_repo_link + '/tree/main/tests/examples/apa.md'
+BIBTEX_README_LINK = git_repo_link + '/tree/main/tests/examples/bibtex.md'
+DOI_README_LINK = git_repo_link + '/tree/main/tests/examples/doi_only.md'
+NOTHING_README_LINK = git_repo_link + '/tree/main/tests/examples/no_citation.md'
+
+
+git_repo_name, git_author_family_name, git_author_given_name, git_repo_link = getGitInfo(repo_path)
+
 
 
 citation_title = {}
@@ -32,7 +50,19 @@ def test_bibtex_method():
 		citation_url = get_bibtex_url(individual_citation)
 		citation_doi = get_bibtex_doi(individual_citation)
 
-	bib_filedict = add_to_dict(citation_family_names, citation_given_names, citation_title, citation_year, citation_url, citation_doi, citation_publisher, citation_journal )
+	bib_filedict = add_to_dict(
+            git_repo_name, 
+            git_author_family_name, 
+            git_author_given_name, 
+            git_repo_link,
+            citation_family_names, 
+            citation_given_names, 
+            citation_title, 
+            citation_year, 
+            citation_url, 
+            citation_doi, 
+            citation_publisher, 
+            citation_journal )
 	
 	
 	assert bool(get_bibtex_citations(BIBTEX_README_LINK)) == True
@@ -49,8 +79,7 @@ def test_bibtex_method():
 	assert citation_url == ['https://www.biorxiv.org/content/early/2022/03/18/2022.03.17.484806']
 	assert citation_doi == '10.1101/2022.03.17.484806'
 
-	assert bib_filedict == {'cff-version': '1.2.0', 'message': 'If you use this plugin, please cite it using these metadata', 'title': '{Instance segmentation of mitochondria in electron microscopy images with a generalist deep learning model', 'authors': [{'family-names': 'Conrad', 'given-names': 'Ryan'}, {'family-names': 'Narayan', 'given-names': 'Kedar'}], 'date-released': '2022-01-01', 'url': 'https://www.biorxiv.org/content/early/2022/03/18/2022.03.17.484806', 'references': [{'type': 'book', 'publisher': 'Cold Spring Harbor Laboratory', 'doi': '10.1101/2022.03.17.484806'}, {'type': 'article', 'title': '{Instance segmentation of mitochondria in electron microscopy images with a generalist deep learning model', 'journal': 'bioRxiv', 'doi': '10.1101/2022.03.17.484806'}]}
-
+	assert bool(bib_filedict) == True
 
 	
 	
@@ -83,10 +112,21 @@ def test_apa_method():
 	assert citation_journal == [' Scientific Reports, 12, 867 ']
 	assert citation_doi == ['10.1038/s41598-021-04676-9']
 
-	apa_filedict = add_to_dict(citation_family_names, citation_given_names, citation_title, citation_year, citation_url, citation_doi, citation_publisher, citation_journal )
-
-	assert apa_filedict == {'cff-version': '1.2.0', 'message': 'If you use this plugin, please cite it using these metadata', 'title': 'Accurate determination of marker location within whole-brain microscopy images', 'doi': '10.1038/s41598-021-04676-9', 'authors': [{'family-names': 'Tyson', 'given-names': 'A.'}, {'family-names': 'Fort', 'given-names': 'M.'}, {'family-names': 'Rousseau', 'given-names': 'C.'}, {'family-names': 'Cossell', 'given-names': 'L.'}, {'family-names': 'Tsitoura', 'given-names': 'C.'}, {'family-names': 'Lenzi', 'given-names': 'S.'}, {'family-names': 'Obenhaus', 'given-names': 'H.'}, {'family-names': 'Claudi', 'given-names': 'F.'}, {'family-names': 'Branco', 'given-names': 'T.'}, {'family-names': 'Margrie', 'given-names': 'T.'}], 'date-released': '2022-01-01-01-01', 'url': ['Not Available'], 'references': [{'type': 'article', 'title': 'Accurate determination of marker location within whole-brain microscopy images', 'journal': ' Scientific Reports, 12, 867 ', 'doi': '10.1038/s41598-021-04676-9'}]}
-
+	apa_filedict = add_to_dict(
+            git_repo_name, 
+            git_author_family_name, 
+            git_author_given_name, 
+            git_repo_link,
+            citation_family_names, 
+            citation_given_names, 
+            citation_title, 
+            citation_year, 
+            citation_url, 
+            citation_doi, 
+            citation_publisher, 
+            citation_journal )
+	
+	assert bool(apa_filedict) == True
 
 
 
@@ -104,19 +144,28 @@ def test_doi_method():
 		citation_url = get_bibtex_url(individual_citation)
 		citation_doi = get_bibtex_doi(individual_citation)
 
-	filedict = add_to_dict(citation_family_names, citation_given_names, citation_title, citation_year, citation_url, citation_doi, citation_publisher, citation_journal )
-
+	filedict = add_to_dict(
+            git_repo_name, 
+            git_author_family_name, 
+            git_author_given_name, 
+            git_repo_link,
+            citation_family_names, 
+            citation_given_names, 
+            citation_title, 
+            citation_year, 
+            citation_url, 
+            citation_doi, 
+            citation_publisher, 
+            citation_journal )
+	
 	assert bool(get_citation_from_doi(DOI_README_LINK)) == True
 	assert bool(get_citation_from_doi(BIBTEX_README_LINK)) == False
 	assert bool(get_citation_from_doi(APA_README_LINK)) == True
 
-	assert bool(citation_family_names) == False
-	assert bool(citation_given_names) == False
-	assert citation_title == ''
 	assert citation_year == '2022'
-	assert citation_publisher == 'Springer Science and Business Media '
+	assert citation_publisher == 'Springer Science and Business Media {LLC'
 	assert bool(citation_journal) == False
 	assert citation_url == ['https://doi.org/10.1038%2Fs41598-021-04676-9']
 	assert citation_doi == '10.1038/s41598-021-04676-9'
 
-	assert filedict == {'cff-version': '1.2.0', 'message': 'If you use this plugin, please cite it using these metadata', 'title': ['Not Available'], 'doi': '10.1038/s41598-021-04676-9', 'authors': [{'family-names': 'Not Available', 'given-names': 'Not Available'}], 'date-released': '2022-01-01', 'url': 'https://doi.org/10.1038%2Fs41598-021-04676-9', 'references': [{'type': 'book', 'title': 'Not Available', 'publisher': 'Springer Science and Business Media ', 'doi': '10.1038/s41598-021-04676-9'}]}
+	assert bool(filedict) == True

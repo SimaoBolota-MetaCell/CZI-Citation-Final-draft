@@ -15,6 +15,7 @@ from tkinter import *
 from tkinter import messagebox
 from citation_scraper.githubInfo import *
 from git_pr_logic.git_interaction import *
+import os
 
 """
     ----------
@@ -32,11 +33,10 @@ from git_pr_logic.git_interaction import *
     ----------
 
 """
-# TO CHANGE to paths
-repo_path = '/Users/simaosa/Desktop/MetaCell/Projects/CZI/FinalCode_Citation_project/CZI-Citation-Final-draft'
 
+repo_path = os.path.dirname(__file__)
+#setting branch name fromnwhich the citation will be pushed
 branch_name = 'citation_branch'
-
 
 # get the current GitHub Repository info
 git_repo_name, git_author_family_name, git_author_given_name, git_repo_link = getGitInfo(repo_path)
@@ -109,7 +109,7 @@ if (bool(get_bibtex_citations(README_LINK))):
     print(filedict)
     print('\n')
     #dump the dict contents into the final YAML file CITATION.CFF
-    with open(r'./CZI-Citation-Final-draft/CITATION.cff', 'w') as file:
+    with open(r'{}/CITATION.cff'.format(repo_path), 'w') as file:
             documents = yaml.dump(filedict, file, sort_keys=False)
 
 
@@ -158,7 +158,7 @@ elif bool(get_bibtex_citations(README_LINK))==False and bool(get_apa_citations(R
         print(filedict)
         print('\n')
         #dump the dict contents into the final YAML file CITATION.CFF
-        with open(r'./CZI-CItation-Final-draft/CITATION.cff', 'w') as file:
+        with open(r'{}/CITATION.cff'.format(repo_path), 'w') as file:
                 documents = yaml.dump(filedict, file, sort_keys=False)
 
     # when no citation information is found, check for an APA formatted DOI
@@ -212,7 +212,7 @@ elif bool(get_bibtex_citations(README_LINK))==False and bool(get_apa_citations(R
         print(filedict)
         print('\n')
         #dump the dict contents into the final YAML file CITATION.CFF
-        with open(r'./CZI-CItation-Final-draft/CITATION.cff', 'w') as file:
+        with open(r'{}/CITATION.cff'.format(repo_path), 'w') as file:
                 documents = yaml.dump(filedict, file, sort_keys=False)
 
 
@@ -240,8 +240,8 @@ else:
     print(filedict)
     print('\n')
     #dump the dict contents into the final YAML file CITATION.CFF
-    with open(r'./CZI-CItation-Final-draft/CITATION.cff', 'w') as file:
+    with open(r'{}/CITATION.cff'.format(repo_path), 'w') as file:
             documents = yaml.dump(filedict, file)
     
-
+#creating pull request with the CITATION.CFF
 # git_pull_request(repo_path,branch_name, git_token )
