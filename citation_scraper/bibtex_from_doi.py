@@ -5,6 +5,7 @@ import re
 import requests
 from patterns import *
 
+
 def get_bibtext(doi, cache={}):
     """Use DOI Content Negotioation (http://crosscite.org/cn/) to retrieve a string
     with the bibtex entry.
