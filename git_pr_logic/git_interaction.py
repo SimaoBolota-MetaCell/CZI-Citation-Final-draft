@@ -56,10 +56,10 @@ def git_pull_request(repo_path,branch_name, git_token):
     repo.index.commit("CFF Citation Added")
     repo.git.push("--set-upstream", origin, repo.head.ref)
     #getting the GitHub Repository information
-    git_repo_name, git_author_family_name, git_author_given_name, git_repo_link = getGitInfo(repo_path)
+    git_repo_username, git_repo_name, git_author_family_name, git_author_given_name, git_repo_link,git_base_branch = getGitInfo(repo_path)
 
     pull_request_description = f"""
-    Hello {git_author_given_name},
+    Hello,
 
     To help you adopt the recommended citation format for Napari plugins, we developed a tool that automatically generates a .CFF file containing the information about your plug in. This is how it works:
     - Our citation tool analyses and extracts information from your README.md file;
@@ -76,11 +76,11 @@ def git_pull_request(repo_path,branch_name, git_token):
     """
 
     create_pull_request(
-        "SimaoBolota-MetaCell", # owner_name
+        git_repo_username, # owner_name
         git_repo_name, # repo_name
         "Adding a CITATION.CFF", # title
         pull_request_description, # description
         branch_name, # head_branch
-        "main", # base_branch
+        git_base_branch, # base_branch
         git_token, # git_token
     )

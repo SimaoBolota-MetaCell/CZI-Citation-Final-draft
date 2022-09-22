@@ -1,6 +1,5 @@
 
 import requests
-import git
 import json
 
 def create_pull_request(project_name, repo_name, title, description, head_branch, base_branch, git_token):

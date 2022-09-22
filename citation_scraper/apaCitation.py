@@ -2,6 +2,7 @@ from citation_scraper.htmlScraper import *
 import re
 from patterns import *
 
+
 def get_apa_citations(link):
     """Collects all APA formatted citations existent in the README.md
 

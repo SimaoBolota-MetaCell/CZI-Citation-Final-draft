@@ -1,3 +1,4 @@
+
 from citation_scraper.bibtexCitation import *
 from citation_scraper.apaCitation import *
 from citation_scraper.bibtex_from_doi import *
@@ -14,18 +15,13 @@ repo = git.Repo(repo_path)
 origin = repo.remote("origin")
 assert origin.exists()
 origin.fetch()
-#collecting the GitHub repository link
-git_repo_link = repo.remotes.origin.url.split('.git')[0]
+#collecting the GitHub repository info
+git_repo_username,git_repo_name, git_author_family_name, git_author_given_name, git_repo_link,git_base_branch = getGitInfo(repo_path)
 
-APA_README_LINK = git_repo_link + '/tree/main/tests/examples/apa.md'
-BIBTEX_README_LINK = git_repo_link + '/tree/main/tests/examples/bibtex.md'
-DOI_README_LINK = git_repo_link + '/tree/main/tests/examples/doi_only.md'
-NOTHING_README_LINK = git_repo_link + '/tree/main/tests/examples/no_citation.md'
-
-
-git_repo_name, git_author_family_name, git_author_given_name, git_repo_link = getGitInfo(repo_path)
-
-
+APA_README_LINK = git_repo_link + '/tree/%s/tests/examples/apa.md'%(git_base_branch)
+BIBTEX_README_LINK = git_repo_link + '/tree/%s/tests/examples/bibtex.md'%(git_base_branch)
+DOI_README_LINK = git_repo_link + '/tree/%s/tests/examples/doi_only.md'%(git_base_branch)
+NOTHING_README_LINK = git_repo_link + '/tree/%s/tests/examples/no_citation.md'%(git_base_branch)
 
 citation_title = {}
 citation_publisher = {}

@@ -4,18 +4,13 @@ from citation_scraper.bibtex_from_doi import *
 from create_dict import *
 from git_pr_logic.pull_request import *
 import yaml
-import git
-import json
-import requests
 import warnings
 from patterns import *
-import sys
 from ruamel.yaml import *
-from tkinter import *
-from tkinter import messagebox
 from citation_scraper.githubInfo import *
 from git_pr_logic.git_interaction import *
 import os
+
 
 """
     ----------
@@ -29,6 +24,9 @@ import os
 
 
    CITATION.CFF format:
+   - The first citation that appears references the software
+   - The preffered citation, which is the one used in GitHub, references an article/book, preffarably article when both exist
+   - when both article and book information exist, book information is written as a sub-reference
 
     ----------
 
@@ -36,13 +34,12 @@ import os
 
 repo_path = os.path.dirname(__file__)
 #setting branch name fromnwhich the citation will be pushed
-branch_name = 'citation_branch'
+branch_name = 'citation_branch_22sep1'
 
 # get the current GitHub Repository info
-git_repo_name, git_author_family_name, git_author_given_name, git_repo_link = getGitInfo(repo_path)
+git_repo_username,git_repo_name, git_author_family_name, git_author_given_name, git_repo_link,git_base_branch = getGitInfo(repo_path)
 # get the current GitHub Repository README.md link, in which the search for citation will happen
-README_LINK = git_repo_link + '/blob/main/README.md'
-
+README_LINK = git_repo_link + '/blob/%s/README.md'%(git_base_branch)
 #creating the branch where the CITATION.CFF will be pushed from
 # git_branch( repo_path, branch_name)
 #getting the GitHub authorization token as input, to be used for the PR
@@ -79,17 +76,6 @@ if (bool(get_bibtex_citations(README_LINK))):
         citation_url = get_bibtex_url(individual_citation)
         citation_doi = get_bibtex_doi(individual_citation)
 
-        # # print(individual_citation)
-        # print(citation_family_names)
-        # print(citation_given_names)
-        # print(citation_title)
-        # print(citation_year)
-        # print(citation_publisher)
-        # print(citation_journal)
-        # print(citation_url)
-        # print(citation_doi)
-
-
     #creating the dict that serves as a template for the CITATION.CFF
     filedict = add_to_dict(
             git_repo_name, 
@@ -116,7 +102,6 @@ if (bool(get_bibtex_citations(README_LINK))):
 
 #then check if there's any APA citation information in the README.md
 elif bool(get_bibtex_citations(README_LINK))==False and bool(get_apa_citations(README_LINK)):
-    
     
     APA_text, all_apa_authors, all_apa_citations = get_apa_citations(
         README_LINK)
@@ -181,17 +166,6 @@ elif bool(get_bibtex_citations(README_LINK))==False and bool(get_apa_citations(R
             citation_url = get_bibtex_url(individual_citation)
             citation_doi = get_bibtex_doi(individual_citation)
 
-           
-        print('\n')
-        print(citation_family_names)
-        print(citation_given_names)
-        print(citation_title)
-        print(citation_year)
-        print(citation_publisher)
-        print(citation_journal)
-        print(citation_url)
-        print(citation_doi)
-
         #creating the dict that serves as a template for the CITATION.CFF
         filedict = add_to_dict(
             git_repo_name, 
@@ -206,7 +180,6 @@ elif bool(get_bibtex_citations(README_LINK))==False and bool(get_apa_citations(R
             citation_doi, 
             citation_publisher, 
             citation_journal )
-
 
         print('\n')
         print(filedict)
@@ -245,3 +218,4 @@ else:
     
 #creating pull request with the CITATION.CFF
 # git_pull_request(repo_path,branch_name, git_token )
+#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
