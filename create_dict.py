@@ -1,4 +1,3 @@
-import yaml
 
 
 def add_to_dict( git_title, git_family_name, git_given_name, git_url,family_names, given_names, title, year, url, doi, publisher, journal):

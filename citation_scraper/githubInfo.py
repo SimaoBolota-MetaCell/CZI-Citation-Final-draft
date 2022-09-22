@@ -2,7 +2,6 @@
 import git
 from patterns import *
 import re
-import requests
 
 def getGitInfo(repo_path):
     """Collects all BibTex formatted citations existent in the README.md
@@ -14,6 +13,8 @@ def getGitInfo(repo_path):
 
     Returns
     -------
+    git_repo_username : str
+        holds the GitHub Repository username
     git_repo_name : str
         holds the name of the GitHub Repository
     git_author_family_name  : str
@@ -22,8 +23,8 @@ def getGitInfo(repo_path):
         holds the given name of the GitHub Repository author
     git_repo_link : str
         holds the link for the GitHub Repository
-    contributors_given_names : list
-        holds the names of the GitHub Repository contributors
+    git_base_branch : str
+        holds the GitHub repository base branch, between master or main
 
     """
     #collecting the GitHub repository info
@@ -32,6 +33,16 @@ def getGitInfo(repo_path):
     origin = repo.remote("origin")
     assert origin.exists()
     origin.fetch()
+    #collecting the GitHub repository base branch, between master or main
+    remote_refs = repo.remote().refs
+    for refs in remote_refs:
+        refs= str(refs)
+        if refs == 'origin/main':
+            git_base_branch = 'main'  
+        elif(refs == 'origin/master'):
+            git_base_branch = 'master'  
+    #collecting the GitHub username
+    git_repo_username = repo.remotes.origin.url.split('.git')[0].split('/')[-2]
     #collecting the GitHub repository name
     git_repo_name = repo.remotes.origin.url.split('.git')[0].split('/')[-1]
     #collecting the GitHub repository link
@@ -58,7 +69,7 @@ def getGitInfo(repo_path):
     git_author_given_name = git_author_given_name.replace("ó", "o")
     git_author_given_name = git_author_given_name.replace("í", "i")
 
-    return git_repo_name, git_author_family_name, git_author_given_name, git_repo_link
+    return git_repo_username, git_repo_name, git_author_family_name, git_author_given_name, git_repo_link,git_base_branch
 
 
 
