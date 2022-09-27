@@ -32,3 +32,40 @@ BIBTEX_url_PATTERN = '(?<=url\\s=\\s\{)(.*?)(?=\})'
 BIBTEX_JOURNAL_PATTERN = '(?<=journal\\s=\\s\{)(.*?)(?=\})'
 BIBTEX_PATTERN = '(?<=@)(.*?)(?=\}\s*\})'
 BIBTEX_PUBLISHER_ALTERNATIVE_PATTERN = '(?<=publisher\\s=\\s\{)(.*?)(?=\{)'
+
+
+template_ref_othwr_work = """
+#authors:
+  #- family-names: Druskat
+  #  given-names: Stephan
+#cff-version: 1.2.0
+#message: "If you use this software, please cite it using these metadata."
+#references:
+  #- authors:
+      #- family-names: Spaaks
+      #  given-names: "Jurriaan H."
+    #title: "The foundation of Research Software"
+    #type: software
+  #- authors:
+      #- family-names: Haines
+      #  given-names: Robert
+    #title: "Ruby CFF Library"
+    #type: software
+    #version: 1.0
+#title: "My Research Software"
+    """
+
+template_cred_redirect = """
+#authors:
+  #- family-names: Druskat
+  #  given-names: Stephan
+#cff-version: 1.2.0
+#message: "If you use this software, please cite both the article from preferred-citation and the software itself."
+#preferred-citation:
+  #authors:
+    #- family-names: Druskat
+    #  given-names: Stephan
+  #title: "Software paper about My Research Software"
+  #type: article
+#title: "My Research Software"
+"""

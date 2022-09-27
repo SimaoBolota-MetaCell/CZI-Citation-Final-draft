@@ -91,15 +91,12 @@ def add_to_dict( git_title, git_family_name, git_given_name, git_url,family_name
         #adding title of the book citation, if existent
         if bool(title):
             pub['title'] = title
-            print(pub)
         #adding DOI of the book citation, if existent
         if(bool(doi)):
             pub['doi'] = doi
-            print(pub)
         #adding URL of the book citation, if existent
         if(bool(url)):
             pub['url'] = url
-            print(pub)
         #adding authors of the book citation, if existent
         if bool(family_names):
             for i in range(len(family_names)):
@@ -128,15 +125,12 @@ def add_to_dict( git_title, git_family_name, git_given_name, git_url,family_name
         #adding title of the article citation, if existent
         if(bool(title)):
             journ['title'] = title
-            print(journ)
         #adding DOI of the article citation, if existent
         if(bool(doi)):
             journ['doi'] = doi
-            print(journ)
         #adding URL of the article citation, if existent
         if(bool(url)):
             journ['url'] = url
-            print(journ)
         #adding authors of the article citation, if existent
         if bool(family_names):
             for i in range(len(family_names)):
